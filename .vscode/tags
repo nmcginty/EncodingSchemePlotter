@@ -1,0 +1,17 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+axis_lines	../mcgintyProjectTwo.py	/^def axis_lines():$/;"	kind:function	line:16
+bits	../mcgintyProjectTwo.py	/^bits = [0,1,0,1,1,0,1,1,0,0,1,1,0,1,0]$/;"	kind:variable	line:4
+clock	../mcgintyProjectTwo.py	/^clock = 1 - np.arange(len(data)) % 2 # math on arrays? who knew!$/;"	kind:variable	line:38
+data	../mcgintyProjectTwo.py	/^data = np.repeat(bits, 2) # just doubles element in sequnce$/;"	kind:variable	line:35
+mcgintyProjectTwo.py	../mcgintyProjectTwo.py	1;"	kind:file	line:1
+mlt3Scheme	../mcgintyProjectTwo.py	/^def mlt3Scheme(bits):$/;"	kind:function	line:12
+my_lines	../mcgintyProjectTwo.py	/^def my_lines(ax, pos, *args, **kwargs):$/;"	kind:function	line:19
+nrzlScheme	../mcgintyProjectTwo.py	/^def nrzlScheme(bits):$/;"	kind:function	line:6
+plotSchemes	../mcgintyProjectTwo.py	/^def plotSchemes():$/;"	kind:function	line:32
+pseudoternaryScheme	../mcgintyProjectTwo.py	/^def pseudoternaryScheme(bits):$/;"	kind:function	line:9
+t	../mcgintyProjectTwo.py	/^t = 0.5 * np.arange(len(data))$/;"	kind:variable	line:41
