@@ -78,8 +78,8 @@ def plotSchemes(bits):
     # # linewidth is literally tickness of line
     # second argument is range of numbers where a line will be drawn on appropriate axis
     # remainder of arguements will resolve to args and kwargs
-    create_axes('x', range(len(bits)+1), color='.5', linewidth=2) 
-    create_axes('y', [1, 5, 9, 13], color='.5', linewidth=2)
+    createAxes('x', range(len(bits)+1), color='.5', linewidth=2) 
+    createAxes('y', [1, 5, 9, 13], color='.5', linewidth=2)
     #plt.step(x, y, color, args)
     plt.step(t, nrzl_levels + 9, 'green', linewidth = 2, where='post', label='NRZ=L')
     plt.step(t, pseudoternary_levels + 5, 'blue', linewidth = 2, where='post', label='Pseudoternary')
