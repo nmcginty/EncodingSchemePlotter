@@ -48,13 +48,7 @@ def mlt3Scheme(bits):
     # mlt3_levels.append(mlt3_levels[-1])
     return np.repeat(mlt3_levels, 2), mlt3_text
 
-def axis_lines():
-    pass
-
-def my_lines(ax, pos, *args, **kwargs):
-
-    # print([arg for arg in args])
-    # print([kwargs for kwargs in kwargs])
+def createAxes(ax, pos, *args, **kwargs):
 
     if ax == 'x':
         for p in pos:
@@ -84,8 +78,8 @@ def plotSchemes(bits):
     # # linewidth is literally tickness of line
     # second argument is range of numbers where a line will be drawn on appropriate axis
     # remainder of arguements will resolve to args and kwargs
-    my_lines('x', range(len(bits)+1), color='.5', linewidth=2) 
-    my_lines('y', [1, 5, 9, 13], color='.5', linewidth=2)
+    create_axes('x', range(len(bits)+1), color='.5', linewidth=2) 
+    create_axes('y', [1, 5, 9, 13], color='.5', linewidth=2)
     #plt.step(x, y, color, args)
     plt.step(t, nrzl_levels + 9, 'green', linewidth = 2, where='post', label='NRZ=L')
     plt.step(t, pseudoternary_levels + 5, 'blue', linewidth = 2, where='post', label='Pseudoternary')
