@@ -84,7 +84,7 @@ def plotSchemes(bits):
     plt.step(t, nrzl_levels + 9, 'green', linewidth = 2, where='post', label='NRZ=L')
     plt.step(t, pseudoternary_levels + 5, 'blue', linewidth = 2, where='post', label='Pseudoternary')
     plt.step(t, mlt3_levels + 1, 'red', linewidth = 2, where='post', label='MLT-3')
-    plt.legend(loc='upper right', prop={'size': 20})
+    plt.legend(loc='upper right', prop={'size': 10})
 
     plt.ylim([-2, 17])
 
