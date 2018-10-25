@@ -1,13 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# bits = [0,1,0,1,1,0,1,1,0,0,1,1,0,1,0]
-# have each scheme function return list of bits to plot
+# each scheme function return lists of bits to plot
 # and text output which is list of +, - or 0
 
+# determine sign of bit, either +, - or 0
 def get_sign(bit):
     return str(bit) if bit == 0 else ('+' if bit > 0 else '-')
 
+# non-return to zero scheme
+# signal is positive when bit is 0, negative when bit is 1
 def nrzlScheme(bits):
     nrzl_level = [-1 if bit else 1 for bit in bits]
     nrzl_text = [get_sign(level) for level in nrzl_level]
@@ -28,7 +30,7 @@ def pseudoternaryScheme(bits):
 
 def mlt3Scheme(bits):
     mlt3_levels = [0 if bits[0] else 1] 
-    mlt3_text = [0 if bits[0] else '+']
+    mlt3_text = [str(0) if bits[0] else '+']
     current_level, last_non_zero_level = mlt3_levels[0], 1
     
     for next_bit in bits[1:]:
@@ -45,17 +47,18 @@ def mlt3Scheme(bits):
         mlt3_levels.append(next_level)
         mlt3_text.append(get_sign(next_level))
 
-    # mlt3_levels.append(mlt3_levels[-1])
     return np.repeat(mlt3_levels, 2), mlt3_text
 
-def createAxes(ax, pos, *args, **kwargs):
 
-    if ax == 'x':
-        for p in pos:
-            plt.axvline(p, *args, **kwargs)
-    else:
-        for p in pos:
-            plt.axhline(p, *args, **kwargs)
+# plots ranges of lines on appropriate axis
+def createAxes(axis, lines, *args, **kwargs):
+
+    if axis == 'x':
+        for line in lines:
+            plt.axvline(line, *args, **kwargs)
+    else: # y
+        for line in lines:
+            plt.axhline(line, *args, **kwargs)
 
 def plotSchemes(bits):
 
@@ -66,29 +69,27 @@ def plotSchemes(bits):
     nrzl_levels = np.append(nrzl_levels, nrzl_levels[-1])
     pseudoternary_levels = np.append(pseudoternary_levels, pseudoternary_levels[-1:])
     mlt3_levels = np.append(mlt3_levels, mlt3_levels[-1:])
+    
     print([str(bit) for bit in bits], "Bits")
     print(nrzl_text, "NRZ-L")
     print(pseudoternary_text, "Pseudoternary")
     print(mlt3_text, "MLT-3")
-    # bits.append(bits[-1])
-    data = np.repeat(bits, 2) # just doubles element in sequnce
+
+    data = np.repeat(bits, 2) # double sequence of bits to fill x axis
     t = 0.5 * np.arange(len(data))
     t = np.append(t, t[-1]+0.5)
 
-    # # linewidth is literally tickness of line
-    # second argument is range of numbers where a line will be drawn on appropriate axis
-    # remainder of arguements will resolve to args and kwargs
     createAxes('x', range(len(bits)+1), color='.5', linewidth=2) 
     createAxes('y', [1, 5, 9, 13], color='.5', linewidth=2)
-    #plt.step(x, y, color, args)
-    plt.step(t, nrzl_levels + 9, 'green', linewidth = 2, where='post', label='NRZ=L')
-    plt.step(t, pseudoternary_levels + 5, 'blue', linewidth = 2, where='post', label='Pseudoternary')
-    plt.step(t, mlt3_levels + 1, 'red', linewidth = 2, where='post', label='MLT-3')
+
+    plt.step(t, nrzl_levels + 9, 'o', linewidth = 2, where='post', label='NRZ-L')
+    plt.step(t, pseudoternary_levels + 5, 'o', linewidth = 2, where='post', label='Pseudoternary')
+    plt.step(t, mlt3_levels + 1, 'o', linewidth = 2, where='post', label='MLT-3')
     plt.legend(loc='upper right', prop={'size': 10})
 
     plt.ylim([-2, 17])
 
-    for tbit, bit in enumerate(bits):
+    for tbit, bit in enumerate(bits): # adds bit sequence above each scheme plot
         plt.text(tbit + 0.5, 11, str(bit))
         plt.text(tbit + 0.5, 7, str(bit))
         plt.text(tbit + 0.5, 3, str(bit))
