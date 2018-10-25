@@ -3,6 +3,7 @@ import numpy as np
 
 # each scheme function return lists of bits to plot
 # and text output which is list of +, - or 0
+# assume scheme starts positive if neccessary
 
 # determine sign of bit, either +, - or 0
 def get_sign(bit):
@@ -28,6 +29,8 @@ def pseudoternaryScheme(bits):
         
     return np.repeat(pseudoternary_levels, 2), pseudoternary_text
 
+# 
+# we arbitrarily assume last_non_zero_level is positive or 1
 def mlt3Scheme(bits):
     mlt3_levels = [0 if bits[0] else 1] 
     mlt3_text = [str(0) if bits[0] else '+']
@@ -50,7 +53,7 @@ def mlt3Scheme(bits):
     return np.repeat(mlt3_levels, 2), mlt3_text
 
 
-# plots ranges of lines on appropriate axis
+# plots line at each value in lines on appropriate axis
 def createAxes(axis, lines, *args, **kwargs):
 
     if axis == 'x':
@@ -66,6 +69,8 @@ def plotSchemes(bits):
     pseudoternary_levels, pseudoternary_text = pseudoternaryScheme(bits)
     mlt3_levels, mlt3_text = mlt3Scheme(bits)
 
+    # add extra bit equal to last in each scheme
+    # this is required to extend the plotter to fill the y axis slice
     nrzl_levels = np.append(nrzl_levels, nrzl_levels[-1])
     pseudoternary_levels = np.append(pseudoternary_levels, pseudoternary_levels[-1:])
     mlt3_levels = np.append(mlt3_levels, mlt3_levels[-1:])
@@ -75,24 +80,26 @@ def plotSchemes(bits):
     print(pseudoternary_text, "Pseudoternary")
     print(mlt3_text, "MLT-3")
 
-    data = np.repeat(bits, 2) # double sequence of bits to fill x axis
-    t = 0.5 * np.arange(len(data))
-    t = np.append(t, t[-1]+0.5)
+    repeated_bits = np.repeat(bits, 2) # double sequence of bits to fill x axis
+    x_coords = 0.5 * np.arange(len(repeated_bits)) # x coordinates, advance by .5
+    x_coords = np.append(x_coords, x_coords[-1]+0.5) # add extra bit 0.5 greater than last in t
 
+    # initalize graph with appropriate lines to plot schemes
     createAxes('x', range(len(bits)+1), color='.5', linewidth=2) 
     createAxes('y', [1, 5, 9, 13], color='.5', linewidth=2)
 
-    plt.step(t, nrzl_levels + 9, 'o', linewidth = 2, where='post', label='NRZ-L')
-    plt.step(t, pseudoternary_levels + 5, 'o', linewidth = 2, where='post', label='Pseudoternary')
-    plt.step(t, mlt3_levels + 1, 'o', linewidth = 2, where='post', label='MLT-3')
+    # change o in plot.step to r,g,b (respectively) to get a graph without emphasized plot points
+    # (x_coords, scheme+adjustement val to move up y-axis, color, line thickness, position, label)    
+    plt.step(x_coords, nrzl_levels + 9, 'o', linewidth = 2, where='post', label='NRZ-L')
+    plt.step(x_coords, pseudoternary_levels + 5, 'o', linewidth = 2, where='post', label='Pseudoternary')
+    plt.step(x_coords, mlt3_levels + 1, 'o', linewidth = 2, where='post', label='MLT-3')
     plt.legend(loc='upper right', prop={'size': 10})
-
     plt.ylim([-2, 17])
 
-    for tbit, bit in enumerate(bits): # adds bit sequence above each scheme plot
-        plt.text(tbit + 0.5, 11, str(bit))
-        plt.text(tbit + 0.5, 7, str(bit))
-        plt.text(tbit + 0.5, 3, str(bit))
+    for x_coord, bit in enumerate(bits): # adds bit sequence above each scheme plot
+        plt.text(x_coord + 0.5, 11, str(bit)) # (x, y, text)
+        plt.text(x_coord + 0.5, 7, str(bit))
+        plt.text(x_coord + 0.5, 3, str(bit))
 
     plt.gca().axis('off')
     plt.savefig('schemePlots.png')
@@ -104,6 +111,7 @@ if __name__ == "__main__":
     # bits = [0]*15 
     # bits = [1]*15
     # bits = [0,0,0,1,1,0,0,0]
+
     # bits = [0, 1]*8
     # bits.pop()
 
